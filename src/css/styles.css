@@ -1,0 +1,16 @@
+.cat-description,
+.cat-temperament {
+  max-width: 500px;
+}
+
+/* .loader {
+  display: none;
+} */
+.error {
+  display: none;
+  color: red;
+}
+
+.cat-info {
+  margin-bottom: 10px;
+}

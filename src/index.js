@@ -56,18 +56,16 @@ refs.select.addEventListener('change', function () {
     .then(data => {
       // !!! якщо запит був успішний
 
-      console.log('Отримані дані:', data.data);
+      // console.log('Отримані дані:', data.data);
+      // refs.loader.style.display = 'block';
 
       refs.divCatInfo.innerHTML = createMarkupCatInfo(
         selectedElement,
         data.data[0].url
       );
-
-      // refs.divCatInfo.after(
-      //   createMarkupCatInfo(selectedElement, data.data.url)
-      // );
     })
     .catch(error => {
+      refs.error.style.display = 'block';
       console.error('Помилка:', error);
     });
 });
@@ -78,10 +76,15 @@ function fetchCatByBreed(breedId) {
   const BASE_URL = 'https://api.thecatapi.com/v1';
   axios.defaults.headers.common['x-api-key'] =
     'live_xVNUrPPCbr72SGM1xfY2I9jt6P2X90a5dkYi0kdB0lfRDIi92OSkoXxx91OBRxP9';
+  refs.loader.style.display = 'block';
+  refs.divCatInfo.style.display = 'none';
 
   return axios
     .get(`${BASE_URL}/images/search?breed_ids=${breedId}`)
     .then(response => {
+      // поки шукає
+      refs.loader.style.display = 'none';
+      refs.divCatInfo.style.display = 'block';
       return response;
     });
 }
@@ -90,6 +93,6 @@ function createMarkupCatInfo(obj, imageSrc) {
   const { name, description, temperament } = obj;
   return `<img src="${imageSrc}" alt="${name}" width="500" heigth="400">
     <h2>${name}</h2>
-    <p>${description}</p>
-    <h3>${temperament}</h3>`;
+    <p class="cat-description">${description}</p>
+    <p class="cat-temperament">${temperament}</p>`;
 }
